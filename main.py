@@ -27,9 +27,12 @@ LOCAL_GOV_TABLE = "Emergency WA - Local Government"
 SUBDISTRICTS_TABLE = "Emergency WA - Subdistricts"
 WARNINGS_TABLE = "Emergency WA - Warnings"
 
+
 # functions to get records from a table
 def get_airtable_records(table, view="Grid view"):
+    print("Getting records from " + table)
     records = Table(airtable_api_key, BASE_ID, table).all()
+    print(records)
     return records
 
 
@@ -108,9 +111,9 @@ def reduce_list_to_locations(airtable_records):
 
 
 # Get all records from all the tables in the base
-existing_emwa_local_gov = get_airtable_records(LOCAL_GOV_TABLE)
-existing_emwa_incidents = get_airtable_records(INCIDENTS_TABLE)
+# existing_emwa_local_gov = get_airtable_records(LOCAL_GOV_TABLE)
 existing_emwa_subdistricts = get_airtable_records(SUBDISTRICTS_TABLE)
+existing_emwa_incidents = get_airtable_records(INCIDENTS_TABLE)
 existing_emwa_warnings = get_airtable_records(WARNINGS_TABLE)
 exisitng_airq_records = get_airtable_records(AIRQ_TABLE)
 
@@ -138,8 +141,9 @@ localgovs = get_target_json(
 existing_incident_ids = reduce_list(existing_emwa_incidents)
 existing_warning_ids = reduce_list(existing_emwa_warnings)
 existing_subdistrict_id = reduce_list(existing_emwa_subdistricts)
-existing_gov_id = reduce_list(existing_emwa_local_gov)
+# existing_gov_id = reduce_list(existing_emwa_local_gov)
 existing_airq_locations = reduce_list_to_locations(exisitng_airq_records)
+
 
 ### go through newly scraped data and either update existing record or create new record ###
 def process_incidents():
@@ -197,7 +201,7 @@ def process_localgovs():
                         "longitude": longitude,
                     }
                     records.append(coord_obj)
-    batch_create_records(LOCAL_GOV_TABLE, records)
+    # batch_create_records(LOCAL_GOV_TABLE, records)
 
 
 # warnings
@@ -242,8 +246,11 @@ def process_airquality():
 
 
 ### regular updates ###
+print("updating air quality")
 process_airquality()
+print("updating incidents")
 process_warnings()
-process_incidents()
+print("updating warnings")
+# process_incidents()
 ### update this for local gov geography coordinates ###
 # process_localgovs()

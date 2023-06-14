@@ -17,7 +17,7 @@ headers = {
 }
 
 # BASE_ID is not sensitive info, we can leave it as a constant
-BASE_ID = "appuetjbGSC7dJNHl"  # smoke alerts
+BASE_ID = "appIqtI7VuPJnQZ7y"  # smoke alerts
 
 
 ### TABLE CONSTANTS
